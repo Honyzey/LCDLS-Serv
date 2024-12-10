@@ -35,7 +35,7 @@ export default {
         async login() {
             console.log('Tentative de connexion avec:', this.email);
             try {
-                const response = await axios.post('http://api.local-shyphem.site/auth/login', {
+                const response = await axios.post('https://api.local-shyphem.site/auth/login', {
                     mail: this.email,
                     password: this.password,
                 }, { withCredentials: true });

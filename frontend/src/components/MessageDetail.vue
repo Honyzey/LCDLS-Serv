@@ -45,7 +45,7 @@ export default {
     async created() {
         const conversationId = this.$route.params.id;
         try {
-            const response = await axios.get(`http://api.local-shyphem.site/messages/conversation/${conversationId}`, {
+            const response = await axios.get(`https://api.local-shyphem.site/messages/conversation/${conversationId}`, {
                 withCredentials: true
             });
             this.messages = response.data;
@@ -69,7 +69,7 @@ export default {
     methods: {
         async fetchUser(userId) {
             try {
-                const response = await axios.get(`http://api.local-shyphem.site/users/${userId}`);
+                const response = await axios.get(`https://api.local-shyphem.site/users/${userId}`);
                 this.user = response.data;
             } catch (error) {
                 console.error('Erreur lors de la récupération des informations de l\'utilisateur:', error);

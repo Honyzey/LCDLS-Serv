@@ -19,7 +19,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: 'http://local-shyphem.site',
+        origin: 'https://local-shyphem.site',
         methods: ['GET', 'POST'],
         credentials: true
     }
@@ -27,7 +27,7 @@ const io = socketIo(server, {
 
 // Configuration de CORS
 app.use(cors({
-    origin: 'http://local-shyphem.site', // Remplacez par l'URL de votre frontend
+    origin: 'https://local-shyphem.site', // Remplacez par l'URL de votre frontend
     credentials: true
 }));
 
