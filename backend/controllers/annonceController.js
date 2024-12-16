@@ -1,7 +1,5 @@
 // controllers/annonceController.js
-const Annonce = require('../models/Annonce');
-const Categorie = require('../models/Categorie');
-const Image = require('../models/Image');
+const { Annonce, Categorie, Image, sequelize } = require('../models');
 const moment = require('moment');
 
 const createAnnonce = async (req, res) => {

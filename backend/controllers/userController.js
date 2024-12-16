@@ -1,6 +1,5 @@
 // controllers/userController.js
-const User = require('../models/User');
-const Annonce = require('../models/Annonce');
+const { User, Annonce } = require('../models');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 require('dotenv').config();

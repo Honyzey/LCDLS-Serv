@@ -1,8 +1,5 @@
 // controllers/messageController.js
-const Conversation = require('../models/Conversation');
-const Message = require('../models/Message');
-const User = require('../models/User');
-const Annonce = require('../models/Annonce');
+const { Conversation, Message, User, Annonce } = require('../models')
 const { Op } = require('sequelize');
 
 const getConversations = async (req, res) => {
