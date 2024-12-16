@@ -1,13 +1,19 @@
 <template>
     <div class="annonce-card">
         <div class="image-container">
-            <img :src="'data:image/jpeg;base64,' + annonce.Images[0].image_base64" alt="Image de l'annonce" />
+            <img 
+                v-if="annonce.Images && annonce.Images.length > 0" 
+                :src="'data:image/jpeg;base64,' + annonce.Images[0].image_base64" 
+                alt="Image de l'annonce" 
+            />
+            <p v-else>Pas d'image disponible</p>
         </div>
-        <h2>{{ annonce.title }}</h2>
-        <p><strong>Prix :</strong> {{ annonce.prix }}€</p>
+        <h2>{{ annonce.title || 'Titre non disponible' }}</h2>
+        <p><strong>Prix :</strong> {{ annonce.prix || 'Non précisé' }}€</p>
         <button @click="voirAnnonce(annonce.id)">Voir l'annonce</button>
     </div>
 </template>
+
 
 <script>
 export default {

@@ -3,6 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const User = require('./User');
 const Categorie = require('./Categorie');
+const Image = require('./Image');
 
 const Annonce = sequelize.define('Annonce', {
     id: {

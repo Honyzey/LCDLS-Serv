@@ -18,7 +18,15 @@ const getConversations = async (req, res) => {
             include: [
                 {
                     model: Annonce,
-                    include: [User]
+                    include: [
+                        {
+                            model: User,
+                        },
+                        {
+                            model: Image, // Inclure les images associées à l'annonce
+                            attributes: ['image_base64'] // Inclure uniquement les informations nécessaires, ici l'image en base64
+                        }
+                    ]
                 }
             ],
             order: [['updated_at', 'DESC']]

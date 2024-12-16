@@ -1,14 +1,20 @@
 <template>
     <div class="message-card" @click="voirConversation">
         <div class="image-container">
-            <img :src="'data:image/jpeg;base64,' + conversation.Annonce.Images[0].image_base64"
-                alt="Image de l'annonce" />
+            <!-- Vérification de l'image -->
+            <img 
+                v-if="conversation && conversation.Annonce && conversation.Annonce.Images && conversation.Annonce.Images[0] && conversation.Annonce.Images[0].image_base64" 
+                :src="'data:image/jpeg;base64,' + conversation.Annonce.Images[0].image_base64" 
+                alt="Image de l'annonce" 
+            />
+            <p v-else>Pas d'image disponible</p>
         </div>
         <div class="message-details">
-            <h2>{{ conversation.Annonce.title }}</h2>
-            <p class="last-message">{{ conversation.last_message }}</p>
+            <!-- Vérification des autres données -->
+            <h2>{{ conversation.Annonce?.title || 'Titre non disponible' }}</h2>
+            <p class="last-message">{{ conversation.last_message || 'Aucun message' }}</p>
             <p class="annonce-info">
-                <span>{{ conversation.Annonce.User.identifiant }}</span> -
+                <span>{{ conversation.Annonce?.User?.identifiant || 'Utilisateur inconnu' }}</span> - 
                 <span>{{ formattedDate }}</span>
             </p>
         </div>
@@ -25,12 +31,44 @@ export default {
     },
     computed: {
         formattedDate() {
+            if (!this.conversation.updated_at) {
+                console.warn("La date `updated_at` est absente ou invalide :", this.conversation.updated_at);
+                return 'Date inconnue';
+            }
+            console.log("Date formatée :", new Date(this.conversation.updated_at).toLocaleString());
             return new Date(this.conversation.updated_at).toLocaleString();
         }
     },
     methods: {
         voirConversation() {
-            this.$router.push(`/message/${this.conversation.id}`);
+            if (this.conversation.id) {
+                console.log("Redirection vers la conversation :", this.conversation.id);
+                this.$router.push(`/message/${this.conversation.id}`);
+            } else {
+                console.warn("ID de conversation non défini !");
+            }
+        }
+    },
+    mounted() {
+        // Log pour vérifier les données reçues
+        console.log("Conversation reçue :", this.conversation);
+
+        if (this.conversation.Annonce) {
+            console.log("Détails de l'annonce :", this.conversation.Annonce);
+        } else {
+            console.warn("Annonce manquante dans la conversation.");
+        }
+
+        if (this.conversation.Annonce?.Images) {
+            console.log("Images de l'annonce :", this.conversation.Annonce.Images);
+
+            if (this.conversation.Annonce.Images[0]?.image_base64) {
+                console.log("Première image Base64 :", this.conversation.Annonce.Images[0].image_base64);
+            } else {
+                console.warn("La première image est absente ou son Base64 est invalide.");
+            }
+        } else {
+            console.warn("Pas d'images dans l'annonce.");
         }
     }
 };

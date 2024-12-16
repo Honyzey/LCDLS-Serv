@@ -13,7 +13,7 @@
     <section class="latest-annonces">
         <h2>Dernières annonces</h2>
         <div class="annonces-container">
-            <AnnonceCard v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
+            <annonce-card v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
         </div>
     </section>
 </template>

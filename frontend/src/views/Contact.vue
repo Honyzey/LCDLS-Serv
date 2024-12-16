@@ -4,7 +4,8 @@
     <section class="banner">
         <div class="banner-content">
             <h1>Nous contacter :</h1>
-            <p>LeCoinDLS@free.fr</p>
+            <p>lecoindls@lyceedelasalle.fr</p>
+          	<h1>Contacter l'établissement :</h1>
             <p>+33(0)2 99 87 12 12</p>
         </div>
     </section>

@@ -2,6 +2,7 @@
 const express = require('express');
 const { getUserInfo, getUserProfile, deleteUserAccount } = require('../controllers/userController');
 const authenticateToken = require('../middleware/auth');
+const { deleteAnnonce } = require('../controllers/annonceController');
 
 const router = express.Router();
 
@@ -32,5 +33,7 @@ router.get('/:id', getUserInfo);
  * @error { message: string }
  */
 router.delete('/profile', authenticateToken, deleteUserAccount);
+
+router.delete('/profil', authMiddleware, deleteAnnonce);
 
 module.exports = router;

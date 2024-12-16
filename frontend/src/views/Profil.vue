@@ -8,7 +8,7 @@
         <button @click="logout" id="deconnexion" class="btn-secondary">Déconnexion</button>
         <h2>Mes Annonces : </h2>
         <div class="annonces-container">
-            <AnnonceCard v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
+            <annonce-card v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
         </div>
     </section>
 </template>
@@ -66,7 +66,7 @@ export default {
         logout() {
             console.log('Déconnexion de l\'utilisateur');
             logout();
-            this.$router.push('/login');
+            this.$router.push('/connexion');
         }
     }
 };

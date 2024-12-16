@@ -43,7 +43,7 @@
 
         <h2>7. Contact</h2>
         <p>Pour toute question concernant notre politique de confidentialité, vous pouvez nous contacter à :
-            LeCoinDLS@free.fr.</p>
+            lecoindls@lyceedelasalle.fr</p>
     </section>
 
 </template>

@@ -30,7 +30,7 @@ const Image = sequelize.define('Image', {
     timestamps: false,
 });
 
-Image.belongsTo(Annonce, { foreignKey: 'annonce_id' });
 Annonce.hasMany(Image, { foreignKey: 'annonce_id' });
+Image.belongsTo(Annonce, { foreignKey: 'annonce_id' });
 
 module.exports = Image;

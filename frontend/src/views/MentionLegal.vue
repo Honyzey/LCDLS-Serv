@@ -8,7 +8,7 @@
         <p>Nom du site : Le Coin DLS<br>
             URL : www.lecoindls.fr<br>
             Responsable de la publication : REY Evan, VILLENEUVE Briac, QUERE Erwan<br>
-            Email : LeCoinDLS@lyceedelasalle.fr<br></p>
+            Email : lecoindls@lyceedelasalle.fr<br></p>
 
         <h2>2. Hébergeur du site</h2>
         <p>Le site est hébergé par :<br>
@@ -39,7 +39,7 @@
 
         <h2>7. Contact</h2>
         <p>Pour toute question ou information relative aux mentions légales, vous pouvez nous contacter à l'adresse
-            suivante : LeCoinDLS@lyceedelasalle.fr</p>
+            suivante : lecoindls@lyceedelasalle.fr</p>
     </section>
 
 </template>

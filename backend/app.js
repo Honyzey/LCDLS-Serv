@@ -20,14 +20,14 @@ const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
         origin: 'https://local-shyphem.site',
-        methods: ['GET', 'POST'],
+        methods: ['GET', 'POST', 'OPTIONS'],
         credentials: true
     }
 });
 
 // Configuration de CORS
 app.use(cors({
-    origin: 'https://local-shyphem.site', // Remplacez par l'URL de votre frontend
+    origin: 'https://local-shyphem.site',
     credentials: true
 }));
 

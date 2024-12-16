@@ -1,8 +1,8 @@
 <template>
     <section class="conversations">
-        <h2>Mes Conversations</h2>
+        <h2>Mes Conversations :</h2>
         <div id="conversation-list">
-            <ConvCard v-for="conversation in conversations" :key="conversation.id" :conversation="conversation" />
+            <conv-card v-for="conversation in conversations" :key="conversation.id" :conversation="conversation" />
         </div>
     </section>
 </template>
@@ -36,6 +36,12 @@ export default {
 </script>
 
 <style scoped>
+  
+h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+}  
 .conversations {
     padding: 20px;
     background-color: #f9f9f9;

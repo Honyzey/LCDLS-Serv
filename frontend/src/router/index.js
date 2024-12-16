@@ -74,16 +74,17 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   console.log('Navigation vers:', to.path);
-  const publicPages = ['/connexion'];
-  const authRequired = !publicPages.includes(to.path);
+  const publicPages = ['/connexion', '/mentions-legales', '/confidentialite', '/contact']; // routes publiques
+  const authRequired = !publicPages.includes(to.path); // Détermine si la route nécessite une authentification
   const loggedIn = isAuthenticated();
 
+  // Si la route nécessite une authentification et que l'utilisateur n'est pas connecté, redirige vers /connexion
   if (authRequired && !loggedIn) {
     console.log('Accès refusé, redirection vers /connexion');
-    return next('/connexion');
+    return next({ path: '/connexion', query: { redirect: to.fullPath } });
   }
 
-  next();
+  next(); // continue la navigation
 });
 
 export default router;

@@ -82,4 +82,31 @@ const deleteUserAccount = async (req, res) => {
     }
 };
 
-module.exports = { getUserInfo, getUserProfile, deleteUserAccount };
+const deleteAnnonce = async (req, res) => {
+    const annonceId = req.params.id;
+    const userId = req.user.id; // ID de l'utilisateur connecté, récupéré depuis le middleware d'authentification
+
+    try {
+        // Vérifie que l'annonce existe et appartient à l'utilisateur
+        const annonce = await Annonce.findOne({
+            where: {
+                id: annonceId,
+                user_id: userId, // Vérifie que l'annonce appartient bien à l'utilisateur connecté
+            },
+        });
+
+        if (!annonce) {
+            return res.status(404).json({ message: 'Annonce non trouvée ou non autorisée.' });
+        }
+
+        // Supprime l'annonce
+        await annonce.destroy();
+
+        res.status(200).json({ message: 'Annonce supprimée avec succès.' });
+    } catch (error) {
+        console.error('Erreur lors de la suppression de l\'annonce :', error);
+        res.status(500).json({ message: 'Erreur serveur.' });
+    }
+};
+
+module.exports = { getUserInfo, getUserProfile, deleteUserAccount, deleteAnnonce };

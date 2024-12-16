@@ -19,23 +19,15 @@ export function logout() {
 }
 
 export function getAuthToken() {
-    const name = 'authToken=';
-    console.log(document.cookie);
-    const decodedCookie = decodeURIComponent(document.cookie);
-    console.log(decodedCookie);
-    const ca = decodedCookie.split(';');
-    console.log(ca);
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) === 0) {
-            const token = c.substring(name.length, c.length);
+    const cookies = document.cookie.split(';');
+    const tokenCookie = cookies.find(c => c.trim().startsWith('authToken='));
+    if (tokenCookie) {
+        const token = tokenCookie.split('=')[1]?.trim();
+        if (token) {
             console.log('Token trouvé:', token);
             return token;
         }
     }
     console.log('Aucun token trouvé');
-    return '';
+    return null;
 }

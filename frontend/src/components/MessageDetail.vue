@@ -2,13 +2,13 @@
     <div class="details-page">
         <section class="details-messages">
             <div id="message-details">
-                <h2 v-if="annonce.User">Conversation avec {{ annonce.User.identifiant }} pour l'annonce "{{
-                    annonce.title }}"</h2>
+                <h2 v-if="annonce.User">
+                    Conversation avec {{ annonce.User.identifiant }} pour l'annonce "{{ annonce.title }}"
+                </h2>
                 <div class="messages">
-                    <div v-for="message in messages" :key="message.id"
-                        :class="{ 'message-sent': message.sender_id === userId, 'message-received': message.sender_id !== userId }">
+                    <div v-for="message in messages" :key="message.id" :class="{ 'message-sent': message.sender_id === userId, 'message-received': message.sender_id !== userId }">
                         <p>{{ message.content }}</p>
-                        <span>{{ new Date(message.created_at).toLocaleString() }}</span>
+                        <span>{{ formatDate(message.created_at) }}</span>
                     </div>
                 </div>
                 <form @submit.prevent="envoyerMessage">
@@ -22,49 +22,61 @@
             <router-link :to="{ name: 'ProfilDetail', params: { id: user.id } }">
                 <h3>{{ user.identifiant }}</h3>
             </router-link>
-            <p v-if="user.Annonces.length > 1">{{ user.Annonces.length }} annonces postées</p>
-            <p>Dernière connexion : {{ user.last_connexion }}</p>
+            <p v-if="user.Annonces && user.Annonces.length > 1">
+                {{ user.Annonces.length }} annonces postées
+            </p>
+            <p>Dernière connexion : {{ formatDate(user.last_connexion) }}</p>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
-import socket from '../services/socket';
+import axios from "axios";
+import socket from "../services/socket";
 
 export default {
     data() {
         return {
             annonce: {},
             messages: [],
-            nouveauMessage: '',
+            nouveauMessage: "",
             userId: null,
-            user: null
+            user: null,
         };
     },
     async created() {
         const conversationId = this.$route.params.id;
+
         try {
-            const response = await axios.get(`https://api.local-shyphem.site/messages/conversation/${conversationId}`, {
-                withCredentials: true
-            });
+            // Charger les messages de la conversation
+            const response = await axios.get(
+                `https://api.local-shyphem.site/messages/conversation/${conversationId}`,
+                { withCredentials: true }
+            );
             this.messages = response.data;
-            if (response.data.length > 0) {
-                this.annonce = response.data[0].Conversation.Annonce || {};
-                this.userId = response.data[0].sender_id;
-                this.fetchUser(this.annonce.user_id);
+
+            if (this.messages.length > 0) {
+                this.annonce = this.messages[0]?.Conversation?.Annonce || {};
+                this.userId = this.messages[0].sender_id;
+                await this.fetchUser(this.annonce.user_id);
             }
 
-            socket.emit('joinConversation', conversationId);
+            // Rejoindre la conversation via WebSocket
+            socket.emit("joinConversation", conversationId);
 
-            socket.on('newMessage', (message) => {
-                console.log('Nouveau message reçu:', message);
+            // Écouter les nouveaux messages
+            socket.on("newMessage", (message) => {
                 this.messages.push(message);
             });
-
         } catch (error) {
-            console.error('Erreur lors de la récupération des messages:', error);
+            console.error("Erreur lors de la récupération des messages :", error);
         }
+    },
+    beforeDestroy() {
+        // Quitter la conversation lors de la destruction du composant
+        const conversationId = this.$route.params.id;
+        socket.emit("leaveConversation", conversationId);
+        socket.off("newMessage");
     },
     methods: {
         async fetchUser(userId) {
@@ -72,32 +84,33 @@ export default {
                 const response = await axios.get(`https://api.local-shyphem.site/users/${userId}`);
                 this.user = response.data;
             } catch (error) {
-                console.error('Erreur lors de la récupération des informations de l\'utilisateur:', error);
+                console.error("Erreur lors de la récupération des informations de l'utilisateur :", error);
             }
         },
         async envoyerMessage() {
-            if (this.nouveauMessage.trim() === '') return;
+            if (this.nouveauMessage.trim() === "") return;
 
             const message = {
                 conversation_id: this.$route.params.id,
-                content: this.nouveauMessage
+                content: this.nouveauMessage,
             };
 
-            console.log('Envoi du message:', message);
-
-            socket.emit('sendMessage', message, (response) => {
-                console.log('Réponse du serveur:', response);
-                if (response.status === 'ok') {
-                    // Ne pas ajouter le message ici, il sera ajouté par l'événement 'newMessage'
-                    this.nouveauMessage = '';
+            // Envoyer le message via le socket
+            socket.emit("sendMessage", message, (response) => {
+                if (response.status === "ok") {
+                    this.nouveauMessage = ""; // Réinitialiser le champ
                 } else {
-                    console.error('Erreur lors de l\'envoi du message:', response.error);
+                    console.error("Erreur lors de l'envoi du message :", response.error);
                 }
             });
-        }
-    }
+        },
+        formatDate(dateString) {
+            return new Date(dateString).toLocaleString();
+        },
+    },
 };
 </script>
+
 
 <style scoped>
 .details-page {

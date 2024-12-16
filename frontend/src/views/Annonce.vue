@@ -16,7 +16,7 @@
                 </select>
             </div>
             <div class="annonces-container">
-                <AnnonceCard v-for="annonce in filteredAnnonces" :key="annonce.id" :annonce="annonce" />
+                <annonce-card v-for="annonce in filteredAnnonces" :key="annonce.id" :annonce="annonce" />
             </div>
         </div>
     </section>
@@ -144,6 +144,50 @@ button[type="submit"]:hover,
     margin: 20px 0;
 }
 
+#filters-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2980B9; /* Couleur de fond douce */
+    border: 1px solid #ddd; /* Légère bordure */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Légère ombre */
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+#filters-section select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-right: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#filters-section select:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 4px rgba(0, 86, 179, 0.5);
+    outline: none;
+}
+
+#filters-section button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#filters-section button:hover {
+    background-color: #1d6fa5;
+}  
+  
 .annonces-container {
     display: flex;
     flex-wrap: wrap;

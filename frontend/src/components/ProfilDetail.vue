@@ -7,7 +7,7 @@
         <p><strong>Dernière connexion :</strong> <span id="user-date">{{ user.last_connexion }}</span></p>
         <h2>Ses Annonces : </h2>
         <div class="annonces-container">
-            <AnnonceCard v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
+            <annonce-card v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
         </div>
     </section>
 </template>
