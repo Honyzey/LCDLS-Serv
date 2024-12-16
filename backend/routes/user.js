@@ -34,6 +34,4 @@ router.get('/:id', getUserInfo);
  */
 router.delete('/profile', authenticateToken, deleteUserAccount);
 
-router.delete('/profil', authMiddleware, deleteAnnonce);
-
 module.exports = router;
