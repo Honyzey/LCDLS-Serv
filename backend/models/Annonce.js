@@ -56,10 +56,4 @@ const Annonce = sequelize.define('Annonce', {
     timestamps: false,
 });
 
-Annonce.belongsTo(User, { foreignKey: 'user_id' });
-User.hasMany(Annonce, { foreignKey: 'user_id' });
-
-Annonce.belongsTo(Categorie, { foreignKey: 'categorie_id' });
-Categorie.hasMany(Annonce, { foreignKey: 'categorie_id' });
-
 module.exports = Annonce;

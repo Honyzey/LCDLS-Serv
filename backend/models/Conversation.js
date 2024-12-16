@@ -35,7 +35,4 @@ const Conversation = sequelize.define('Conversation', {
     timestamps: false,
 });
 
-Conversation.belongsTo(Annonce, { foreignKey: 'annonce_id' });
-Annonce.hasMany(Conversation, { foreignKey: 'annonce_id' });
-
 module.exports = Conversation;

@@ -5,13 +5,11 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const sequelize = require('./config/db');
+const { sequelize, Message, Conversation } = require('./models');
 const authRoutes = require('./routes/auth');
 const annonceRoutes = require('./routes/annonce');
 const messageRoutes = require('./routes/message');
 const userRoutes = require('./routes/user');
-const Message = require('./models/Message');
-const Conversation = require('./models/Conversation');
 require('dotenv').config();
 
 const app = express();
