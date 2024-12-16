@@ -163,4 +163,47 @@ const getAnnoncesByUserId = async (req, res) => {
     }
 };
 
-module.exports = { createAnnonce, getAnnonce, getAnnonces, searchAnnonces, getCategories, getEtats, getLatestAnnonces, getAnnoncesByUser, getAnnoncesByUserId };
+const deleteAnnonce = async (req, res) => {
+    const { id } = req.params;
+    const user_id = req.user.id;
+
+    const transaction = await sequelize.transaction();
+
+    try {
+        const annonce = await Annonce.findOne({ where: { id, user_id }, transaction });
+
+        if (!annonce) {
+            await transaction.rollback();
+            return res.status(404).json({ message: 'Annonce non trouvée ou vous n\'êtes pas autorisé à la supprimer' });
+        }
+
+        // Supprimer les enregistrements dépendants dans la table `messages`
+        await sequelize.query('DELETE FROM messages WHERE conversation_id IN (SELECT id FROM conversations WHERE annonce_id = ?)', {
+            replacements: [id],
+            transaction
+        });
+
+        // Supprimer les enregistrements dépendants dans la table `conversations`
+        await sequelize.query('DELETE FROM conversations WHERE annonce_id = ?', {
+            replacements: [id],
+            transaction
+        });
+
+        // Supprimer les enregistrements dépendants dans la table `image`
+        await sequelize.query('DELETE FROM image WHERE annonce_id = ?', {
+            replacements: [id],
+            transaction
+        });
+
+        await annonce.destroy({ transaction });
+        await transaction.commit();
+
+        res.status(200).json({ message: 'Annonce supprimée avec succès' });
+    } catch (error) {
+        await transaction.rollback();
+        console.error('Erreur lors de la suppression de l\'annonce:', error);
+        res.status(500).json({ message: 'Erreur lors de la suppression de l\'annonce' });
+    }
+};
+
+module.exports = { createAnnonce, getAnnonce, getAnnonces, searchAnnonces, getCategories, getEtats, getLatestAnnonces, getAnnoncesByUser, getAnnoncesByUserId, deleteAnnonce };

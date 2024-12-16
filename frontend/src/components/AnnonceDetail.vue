@@ -27,6 +27,7 @@
                 <button @click="toggleReport" class="btn-transparent">...</button>
                 <div v-if="showReport" class="dropdown-menu">
                     <button @click="reportAnnonce" class="btn-danger">Signaler l'annonce</button>
+                    <button @click="deleteAnnonce" class="btn-danger">Supprimer l'annonce</button>
                 </div>
             </div>
 
@@ -120,6 +121,20 @@ export default {
         },
         reportAnnonce() {
             // Logique pour signaler l'annonce
+        },
+        async deleteAnnonce() {
+            try {
+                const token = getAuthToken();
+                await axios.delete(`https://api.local-shyphem.site/annonces/${this.annonce.id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    withCredentials: true
+                });
+                this.$router.push('/annonces');
+            } catch (error) {
+                console.error('Erreur lors de la suppression de l\'annonce:', error);
+            }
         }
     }
 };

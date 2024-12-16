@@ -1,6 +1,6 @@
 // routes/annonce.js
 const express = require('express');
-const { createAnnonce, getAnnonce, getAnnonces, searchAnnonces, getCategories, getEtats, getLatestAnnonces, getAnnoncesByUser, getAnnoncesByUserId } = require('../controllers/annonceController');
+const { createAnnonce, getAnnonce, getAnnonces, searchAnnonces, getCategories, getEtats, getLatestAnnonces, getAnnoncesByUser, getAnnoncesByUserId, deleteAnnonce } = require('../controllers/annonceController');
 const authenticateToken = require('../middleware/auth');
 const multer = require('multer');
 const upload = multer();
@@ -92,5 +92,15 @@ router.get('/user/:id', getAnnoncesByUserId);
  * @error { message: string }
  */
 router.get('/:id', getAnnonce);
+
+/**
+ * @route DELETE /annonces/:id
+ * @desc Supprime une annonce par son ID
+ * @access Private
+ * @params { id: number }
+ * @response { message: string }
+ * @error { message: string }
+ */
+router.delete('/:id', authenticateToken, deleteAnnonce);
 
 module.exports = router;
