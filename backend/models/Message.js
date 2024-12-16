@@ -1,8 +1,6 @@
 // models/Message.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const User = require('./User');
-const Conversation = require('./Conversation');
 
 const Message = sequelize.define('Message', {
     id: {
@@ -13,7 +11,7 @@ const Message = sequelize.define('Message', {
     conversation_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Conversation,
+            model: 'Conversations',
             key: 'id',
         },
         allowNull: false,
@@ -21,7 +19,7 @@ const Message = sequelize.define('Message', {
     sender_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: User,
+            model: 'Users',
             key: 'id',
         },
         allowNull: false,

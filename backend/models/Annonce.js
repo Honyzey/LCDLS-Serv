@@ -1,9 +1,6 @@
 // models/Annonce.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const User = require('./User');
-const Categorie = require('./Categorie');
-const Image = require('./Image');
 
 const Annonce = sequelize.define('Annonce', {
     id: {
@@ -14,7 +11,7 @@ const Annonce = sequelize.define('Annonce', {
     user_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: User,
+            model: 'Users',
             key: 'id',
         },
         allowNull: false,
@@ -22,7 +19,7 @@ const Annonce = sequelize.define('Annonce', {
     categorie_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Categorie,
+            model: 'Categories',
             key: 'id',
         },
         allowNull: false,

@@ -1,8 +1,6 @@
 // models/Conversation.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const User = require('./User');
-const Annonce = require('./Annonce');
 
 const Conversation = sequelize.define('Conversation', {
     id: {
@@ -25,7 +23,7 @@ const Conversation = sequelize.define('Conversation', {
     annonce_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Annonce,
+            model: 'Annonces',
             key: 'id',
         },
         allowNull: false,
