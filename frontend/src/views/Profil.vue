@@ -35,14 +35,14 @@ export default {
     async created() {
         try {
             console.log('Récupération du profil de l\'utilisateur');
-            const response = await axios.get('http://localhost:3000/users/profile', {
+            const response = await axios.get('https://api.local-shyphem.site/users/profile', {
                 withCredentials: true,
             });
             this.user = response.data;
 
             // Récupérer les annonces de l'utilisateur connecté
             console.log('Récupération des annonces de l\'utilisateur');
-            const annoncesResponse = await axios.get('http://localhost:3000/annonces/user', {
+            const annoncesResponse = await axios.get('https://api.local-shyphem.site/annonces/user', {
                 withCredentials: true,
             });
             this.annonces = annoncesResponse.data;
@@ -54,7 +54,7 @@ export default {
         async deleteAccount() {
             try {
                 console.log('Suppression du compte de l\'utilisateur');
-                await axios.delete('http://localhost:3000/users/profile', {
+                await axios.delete('https://api.local-shyphem.site/users/profile', {
                     withCredentials: true,
                 });
                 alert('Compte supprimé avec succès');

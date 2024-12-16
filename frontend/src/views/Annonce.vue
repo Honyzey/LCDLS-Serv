@@ -52,7 +52,7 @@ export default {
     methods: {
         async fetchAnnonces() {
             try {
-                const response = await axios.get('http://localhost:3000/annonces/all');
+                const response = await axios.get('https://api.local-shyphem.site/annonces/all');
                 this.annonces = response.data;
             } catch (error) {
                 console.error('Erreur lors de la récupération des annonces:', error);
@@ -60,7 +60,7 @@ export default {
         },
         async fetchCategories() {
             try {
-                const response = await axios.get('http://localhost:3000/annonces/categories');
+                const response = await axios.get('https://api.local-shyphem.site/annonces/categories');
                 this.categories = response.data;
             } catch (error) {
                 console.error('Erreur lors de la récupération des catégories:', error);

@@ -79,7 +79,7 @@ export default {
     async created() {
         const id = this.$route.params.id;
         try {
-            const response = await axios.get(`http://localhost:3000/annonces/${id}`);
+            const response = await axios.get(`https://api.local-shyphem.site/annonces/${id}`);
             this.annonce = response.data;
             this.fetchUser(this.annonce.user_id);
             this.fetchCurrentUser();
@@ -90,7 +90,7 @@ export default {
     methods: {
         async fetchUser(userId) {
             try {
-                const response = await axios.get(`http://localhost:3000/users/${userId}`);
+                const response = await axios.get(`https://api.local-shyphem.site/users/${userId}`);
                 this.user = response.data;
             } catch (error) {
                 console.error('Erreur lors de la récupération des informations de l\'utilisateur:', error);
@@ -98,7 +98,7 @@ export default {
         },
         async fetchCurrentUser() {
             try {
-                const response = await axios.get('http://localhost:3000/users/profile', {
+                const response = await axios.get('https://api.local-shyphem.site/users/profile', {
                     withCredentials: true,
                 });
                 this.currentUser = response.data;
@@ -120,7 +120,7 @@ export default {
         async sendMessage() {
             try {
                 const token = getAuthToken();
-                const response = await axios.post('http://localhost:3000/messages/conversation', {
+                const response = await axios.post('https://api.local-shyphem.site/messages/conversation', {
                     annonce_id: this.annonce.id,
                     destinataire_id: this.annonce.user_id,
                     content: 'Bonjour, je suis intéressé par votre annonce.'
@@ -144,7 +144,7 @@ export default {
         async deleteAnnonce() {
             try {
                 const token = getAuthToken();
-                await axios.delete(`http://localhost:3000/annonces/${this.annonce.id}`, {
+                await axios.delete(`https://api.local-shyphem.site/annonces/${this.annonce.id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     },

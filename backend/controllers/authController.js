@@ -49,7 +49,7 @@ const login = async (req, res) => {
         });
 
         // Envoyer le token dans un cookie
-        res.cookie('authToken', token, { httpOnly: false, secure: true, sameSite: 'None', domain: 'localhost', maxAge: 3600000 }); // 1 heure
+        res.cookie('authToken', token, { httpOnly: false, secure: true, sameSite: 'None', domain: '.local-shyphem.site', maxAge: 3600000 }); // 1 heure
 
         res.status(200).json({ message: 'Connexion réussie' });
     } catch (error) {

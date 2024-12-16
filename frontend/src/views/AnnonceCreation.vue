@@ -77,7 +77,7 @@ export default {
     methods: {
         async fetchCategories() {
             try {
-                const response = await axios.get('http://localhost:3000/annonces/categories');
+                const response = await axios.get('https://api.local-shyphem.site/annonces/categories');
                 this.categories = response.data;
             } catch (error) {
                 console.error('Erreur lors de la récupération des catégories:', error);
@@ -85,7 +85,7 @@ export default {
         },
         async fetchEtats() {
             try {
-                const response = await axios.get('http://localhost:3000/annonces/etats');
+                const response = await axios.get('https://api.local-shyphem.site/annonces/etats');
                 this.etats = response.data;
             } catch (error) {
                 console.error('Erreur lors de la récupération des états:', error);
@@ -119,7 +119,7 @@ export default {
 
             try {
                 const token = getAuthToken();
-                const response = await axios.post('http://localhost:3000/annonces', formData, {
+                const response = await axios.post('https://api.local-shyphem.site/annonces', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${token}`
