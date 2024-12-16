@@ -1,31 +1,35 @@
 // controllers/annonceController.js
 const { Annonce, Categorie, Image, sequelize } = require('../models');
 const moment = require('moment');
+const { contientInsulte } = require('../utils/insultes');
 
 const createAnnonce = async (req, res) => {
     const { categorie_id, title, prix, description, etat } = req.body; // Ajoutez `etat` ici
     const user_id = req.user.id; // Extraire l'ID de l'utilisateur à partir du token
 
     try {
-        const annonce = await Annonce.create({
-            user_id,
-            categorie_id,
-            title,
-            prix,
-            description,
-            etat // Assurez-vous que l'état est bien utilisé ici
-        });
+        if (contientInsulte(title) || contientInsulte(description)) {
+            res.status(400).json({ message: 'Votre annonce contient des insultes' });
+        } else {
+            const annonce = await Annonce.create({
+                user_id,
+                categorie_id,
+                title,
+                prix,
+                description,
+                etat // Assurez-vous que l'état est bien utilisé ici
+            });
 
-        // Ajoutez les images si elles existent
-        if (req.files) {
-            const images = req.files.map(file => ({
-                annonce_id: annonce.id,
-                image_base64: file.buffer.toString('base64')
-            }));
-            await Image.bulkCreate(images);
+            // Ajoutez les images si elles existent
+            if (req.files) {
+                const images = req.files.map(file => ({
+                    annonce_id: annonce.id,
+                    image_base64: file.buffer.toString('base64')
+                }));
+                await Image.bulkCreate(images);
+            }
+            res.status(201).json(annonce);
         }
-
-        res.status(201).json(annonce);
     } catch (error) {
         console.error('Erreur lors de la création de l\'annonce:', error);
         res.status(500).json({ message: 'Erreur lors de la création de l\'annonce' });

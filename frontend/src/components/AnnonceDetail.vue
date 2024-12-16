@@ -26,8 +26,8 @@
                 </div>
                 <button @click="toggleReport" class="btn-transparent">...</button>
                 <div v-if="showReport" class="dropdown-menu">
-                    <button @click="reportAnnonce" class="btn-danger">Signaler l'annonce</button>
-                    <button @click="deleteAnnonce" class="btn-danger">Supprimer l'annonce</button>
+                    <button @click="toggleReport" class="btn-transparent">...</button>
+                    <button v-if="isOwnerOrAdmin" @click="deleteAnnonce" class="btn-danger">Supprimer</button>
                 </div>
             </div>
 
@@ -61,7 +61,8 @@ export default {
             currentImageIndex: 0,
             showButtons: false,
             showModal: false,
-            showReport: false
+            showReport: false,
+            isOwnerOrAdmin: false
         };
     },
     computed: {
@@ -75,6 +76,7 @@ export default {
             const response = await axios.get(`https://api.local-shyphem.site/annonces/${id}`);
             this.annonce = response.data;
             this.fetchUser(this.annonce.user_id);
+            this.checkOwnershipOrAdmin();
         } catch (error) {
             console.error('Erreur lors de la récupération de l\'annonce:', error);
         }
@@ -86,6 +88,21 @@ export default {
                 this.user = response.data;
             } catch (error) {
                 console.error('Erreur lors de la récupération des informations de l\'utilisateur:', error);
+            }
+        },
+        async checkOwnershipOrAdmin() {
+            try {
+                const token = getAuthToken();
+                const response = await axios.get('http://localhost:3000/users/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    withCredentials: true
+                });
+                const currentUser = response.data;
+                this.isOwnerOrAdmin = currentUser.id === this.annonce.user_id || currentUser.level === 'admin';
+            } catch (error) {
+                console.error('Erreur lors de la vérification des droits de l\'utilisateur:', error);
             }
         },
         changeImage(direction) {

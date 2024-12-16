@@ -129,7 +129,11 @@ export default {
                 console.log('Annonce créée avec succès:', response.data);
                 this.$router.push(`/annonce/${response.data.id}`);
             } catch (error) {
-                console.error('Erreur lors de la création de l\'annonce:', error);
+                if (error.response && error.response.status === 400 && error.response.data.message === 'Votre annonce contient des insultes') {
+                    alert('Votre annonce contient des insultes. Veuillez les retirer avant de soumettre.');
+                } else {
+                    console.error('Erreur lors de la création de l\'annonce:', error);
+                }
             }
         }
     },
