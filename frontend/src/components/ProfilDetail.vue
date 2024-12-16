@@ -34,11 +34,11 @@ export default {
     async created() {
         const userId = this.$route.params.id;
         try {
-            const response = await axios.get(`https://api.local-shyphem.site/users/${userId}`);
+            const response = await axios.get(`http://localhost:3000/users/${userId}`);
             this.user = response.data;
 
             // Récupérer les annonces de l'utilisateur par ID
-            const annoncesResponse = await axios.get(`https://api.local-shyphem.site/annonces/user/${userId}`);
+            const annoncesResponse = await axios.get(`http://localhost:3000/annonces/user/${userId}`);
             this.annonces = annoncesResponse.data;
         } catch (error) {
             console.error('Erreur lors de la récupération des informations de l\'utilisateur:', error);

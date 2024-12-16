@@ -35,7 +35,7 @@ export default {
     methods: {
         async fetchLatestAnnonces() {
             try {
-                const response = await axios.get('https://api.local-shyphem.site/annonces/latest');
+                const response = await axios.get('http://localhost:3000/annonces/latest');
                 this.annonces = response.data;
             } catch (error) {
                 console.error('Erreur lors de la récupération des dernières annonces:', error);

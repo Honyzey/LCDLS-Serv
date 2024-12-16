@@ -1,5 +1,5 @@
 // controllers/annonceController.js
-const { Annonce, Categorie, Image, sequelize } = require('../models');
+const { Annonce, Categorie, Image, User, sequelize } = require('../models');
 const moment = require('moment');
 const { contientInsulte } = require('../utils/insultes');
 
@@ -168,16 +168,19 @@ const getAnnoncesByUserId = async (req, res) => {
 const deleteAnnonce = async (req, res) => {
     const { id } = req.params;
     const user_id = req.user.id;
+    const user = await User.findOne({ where: { id: user_id }, attributes: ['level'] });
 
     const transaction = await sequelize.transaction();
 
     try {
-        const annonce = await Annonce.findOne({ where: { id, user_id }, transaction });
+        let annonce = await Annonce.findOne({ where: { id, user_id }, transaction });
 
-        if (!annonce) {
+        if (user.level !== 'admin' && !annonce) {
             await transaction.rollback();
             return res.status(404).json({ message: 'Annonce non trouvée ou vous n\'êtes pas autorisé à la supprimer' });
         }
+
+        annonce = await Annonce.findOne({ where: { id }, transaction });
 
         // Supprimer les enregistrements dépendants dans la table `messages`
         await sequelize.query('DELETE FROM messages WHERE conversation_id IN (SELECT id FROM conversations WHERE annonce_id = ?)', {

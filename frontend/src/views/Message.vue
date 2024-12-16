@@ -23,7 +23,7 @@ export default {
     async created() {
         try {
             console.log('Récupération des conversations');
-            const response = await axios.get('https://api.local-shyphem.site/messages/conversations', {
+            const response = await axios.get('http://localhost:3000/messages/conversations', {
                 withCredentials: true
             });
             console.log('Conversations récupérées:', response.data);

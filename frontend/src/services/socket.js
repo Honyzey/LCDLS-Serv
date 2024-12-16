@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { getAuthToken } from './auth';
 
-const socket = io('https://api.local-shyphem.site', {
+const socket = io('http://localhost:3000', {
     auth: {
         token: getAuthToken()
     }

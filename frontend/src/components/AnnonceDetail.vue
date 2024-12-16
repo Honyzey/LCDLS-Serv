@@ -26,8 +26,9 @@
                 </div>
                 <button @click="toggleReport" class="btn-transparent">...</button>
                 <div v-if="showReport" class="dropdown-menu">
-                    <button @click="toggleReport" class="btn-transparent">...</button>
-                    <button v-if="isOwnerOrAdmin" @click="deleteAnnonce" class="btn-danger">Supprimer</button>
+                    <button @click="reportAnnonce" class="btn-danger">Signaler l'annonce</button>
+                    <button v-if="canDeleteAnnonce" @click="deleteAnnonce" class="btn-danger">Supprimer
+                        l'annonce</button>
                 </div>
             </div>
 
@@ -62,21 +63,26 @@ export default {
             showButtons: false,
             showModal: false,
             showReport: false,
-            isOwnerOrAdmin: false
+            currentUser: null
         };
     },
     computed: {
         formattedDescription() {
             return this.annonce.description.replace(/\n/g, '<br>');
+        },
+        canDeleteAnnonce() {
+            console.log('currentUser:', this.currentUser.id);
+            console.log('annonce.user_id:', this.annonce.user_id);
+            return this.currentUser && (this.currentUser.id === this.annonce.user_id || this.currentUser.level === 'admin');
         }
     },
     async created() {
         const id = this.$route.params.id;
         try {
-            const response = await axios.get(`https://api.local-shyphem.site/annonces/${id}`);
+            const response = await axios.get(`http://localhost:3000/annonces/${id}`);
             this.annonce = response.data;
             this.fetchUser(this.annonce.user_id);
-            this.checkOwnershipOrAdmin();
+            this.fetchCurrentUser();
         } catch (error) {
             console.error('Erreur lors de la récupération de l\'annonce:', error);
         }
@@ -84,25 +90,21 @@ export default {
     methods: {
         async fetchUser(userId) {
             try {
-                const response = await axios.get(`https://api.local-shyphem.site/users/${userId}`);
+                const response = await axios.get(`http://localhost:3000/users/${userId}`);
                 this.user = response.data;
             } catch (error) {
                 console.error('Erreur lors de la récupération des informations de l\'utilisateur:', error);
             }
         },
-        async checkOwnershipOrAdmin() {
+        async fetchCurrentUser() {
             try {
-                const token = getAuthToken();
                 const response = await axios.get('http://localhost:3000/users/profile', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    },
-                    withCredentials: true
+                    withCredentials: true,
                 });
-                const currentUser = response.data;
-                this.isOwnerOrAdmin = currentUser.id === this.annonce.user_id || currentUser.level === 'admin';
+                this.currentUser = response.data;
+                console.log('currentUser fetched:', this.currentUser);
             } catch (error) {
-                console.error('Erreur lors de la vérification des droits de l\'utilisateur:', error);
+                console.error('Erreur lors de la récupération des informations de l\'utilisateur connecté:', error);
             }
         },
         changeImage(direction) {
@@ -118,7 +120,7 @@ export default {
         async sendMessage() {
             try {
                 const token = getAuthToken();
-                const response = await axios.post('https://api.local-shyphem.site/messages/conversation', {
+                const response = await axios.post('http://localhost:3000/messages/conversation', {
                     annonce_id: this.annonce.id,
                     destinataire_id: this.annonce.user_id,
                     content: 'Bonjour, je suis intéressé par votre annonce.'
@@ -142,13 +144,13 @@ export default {
         async deleteAnnonce() {
             try {
                 const token = getAuthToken();
-                await axios.delete(`https://api.local-shyphem.site/annonces/${this.annonce.id}`, {
+                await axios.delete(`http://localhost:3000/annonces/${this.annonce.id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     },
                     withCredentials: true
                 });
-                this.$router.push('/annonces');
+                this.$router.push('/annonce');
             } catch (error) {
                 console.error('Erreur lors de la suppression de l\'annonce:', error);
             }

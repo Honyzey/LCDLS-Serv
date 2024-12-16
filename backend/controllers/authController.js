@@ -44,12 +44,12 @@ const login = async (req, res) => {
         await user.save();
 
         // Générer un token JWT
-        const token = jwt.sign({ id: user.id, mail: user.mail }, process.env.JWT_SECRET, {
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
             expiresIn: '1h', // Le token expire dans 1 heure
         });
 
         // Envoyer le token dans un cookie
-        res.cookie('authToken', token, { httpOnly: false, secure: true, sameSite: 'None', domain: '.local-shyphem.site', maxAge: 3600000 }); // 1 heure
+        res.cookie('authToken', token, { httpOnly: false, secure: true, sameSite: 'None', domain: 'localhost', maxAge: 3600000 }); // 1 heure
 
         res.status(200).json({ message: 'Connexion réussie' });
     } catch (error) {
