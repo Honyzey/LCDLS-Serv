@@ -4,6 +4,7 @@ const socketIo = require('socket.io');
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet')
 const cookieParser = require('cookie-parser');
 const { sequelize, Message, Conversation } = require('./models');
 const authRoutes = require('./routes/auth');
@@ -17,7 +18,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: 'https://local-shyphem.site',
+        origin: 'https://lecoindls.site',
         methods: ['GET', 'POST', 'OPTIONS'],
         credentials: true
     }
@@ -25,9 +26,11 @@ const io = socketIo(server, {
 
 // Configuration de CORS
 app.use(cors({
-    origin: 'https://local-shyphem.site',
+    origin: 'https://lecoindls.site',
     credentials: true
 }));
+
+app.use(helmet());
 
 // Middleware pour parser les requêtes JSON
 app.use(express.json());
@@ -99,7 +102,7 @@ const startServer = async () => {
         console.log('Connexion à la base de données réussie.');
         await sequelize.sync({ force: false }); // Attention: force: true va supprimer et recréer les tables
         server.listen(PORT, () => {
-            console.log(`Serveur démarré sur le port ${PORT}\nDocumentation disponible à l'adresse https://local-shyphem.site:${PORT}/documentation.html`);
+            console.log(`Serveur démarré sur le port ${PORT}\nDocumentation disponible à l'adresse https://lecoindls.site:${PORT}/documentation.html`);
         });
     } catch (error) {
         console.error('Impossible de se connecter à la base de données:', error);

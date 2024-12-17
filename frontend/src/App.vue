@@ -16,8 +16,8 @@
                     </ul>
                 </nav>
                 <div class="hamburger" @click="toggleMenu">
-                	<i class="fa fa-bars"></i>
-            	</div>
+                    <i class="fa fa-bars"></i>
+                </div>
             </div>
         </header>
         <main>
@@ -47,10 +47,22 @@ export default {
             const navLinks = this.$el.querySelector('.nav-links');
             navLinks.classList.toggle('show'); // Ajoute ou enlève la classe "show" au menu
         }
+    },
+    mounted() {
+        // Ajout du code Matomo après le montage de l'application
+        var _paq = window._paq = window._paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="https://matomo.lecoindls.site/";  // Remplace par l'URL de ton instance Matomo
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '1']);  // Remplace par l'ID de ton site Matomo
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+        })();
     }
 }
 </script>
-
 
 <style scoped>
 /* Pour assurer que le footer reste en bas */

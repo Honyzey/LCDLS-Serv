@@ -52,7 +52,7 @@ export default {
         try {
             // Charger les messages de la conversation
             const response = await axios.get(
-                `https://api.local-shyphem.site/messages/conversation/${conversationId}`,
+                `https://api.lecoindls.site/messages/conversation/${conversationId}`,
                 { withCredentials: true }
             );
             this.messages = response.data;
@@ -83,7 +83,7 @@ export default {
     methods: {
         async fetchUser(userId) {
             try {
-                const response = await axios.get(`https://api.local-shyphem.site/users/${userId}`);
+                const response = await axios.get(`https://api.lecoindls.site/users/${userId}`);
                 this.user = response.data;
             } catch (error) {
                 console.error("Erreur lors de la récupération des informations de l'utilisateur :", error);

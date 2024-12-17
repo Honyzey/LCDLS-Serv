@@ -75,19 +75,23 @@ export default {
 </script>
 
 <style scoped>
+  
+
+  
 .message-card {
-    display: flex;
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    margin: 10px;
-    cursor: pointer;
+    display: flex; /* Utilise Flexbox pour aligner l'image et le contenu */
+    align-items: center; /* Centre les éléments verticalement */
+    gap: 20px; /* Espacement entre l'image et les détails */
+    background: #fff; /* Fond blanc pour un meilleur contraste */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
+    padding: 15px;
+  	max-width: 700px;
 }
 
 .image-container {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     overflow: hidden;
     border-radius: 10px;
     margin-right: 20px;

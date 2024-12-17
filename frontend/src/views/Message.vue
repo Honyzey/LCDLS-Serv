@@ -23,7 +23,7 @@ export default {
     async created() {
         try {
             console.log('Récupération des conversations');
-            const response = await axios.get('https://api.local-shyphem.site/messages/conversations', {
+            const response = await axios.get('https://api.lecoindls.site/messages/conversations', {
                 withCredentials: true
             });
             console.log('Conversations récupérées:', response.data);
@@ -45,11 +45,24 @@ h2 {
 .conversations {
     padding: 20px;
     background-color: #f9f9f9;
+    display: flex; /* Utilise Flexbox pour aligner */
+    flex-direction: column; /* Les cartes restent empilées verticalement */
+    align-items: center; /* Centre les cartes horizontalement */
+    justify-content: center;
 }
 
 #conversation-list {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    flex-direction: column; /* Les cartes seront en colonne, donc une sous l'autre */
+    gap: 20px; /* Espacement entre les cartes */
 }
+  
+/* Responsive pour les écrans de moins de 768px */
+@media screen and (max-width: 768px) {
+    #conversation-list {
+        flex-direction: column; /* Colonne par défaut */
+        align-items: center; /* Centre les cartes */
+    }
+}
+  
 </style>
