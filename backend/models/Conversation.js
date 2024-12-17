@@ -8,10 +8,6 @@ const Conversation = sequelize.define('Conversation', {
         primaryKey: true,
         autoIncrement: true,
     },
-    participants: {
-        type: DataTypes.JSON,
-        allowNull: false,
-    },
     last_message: {
         type: DataTypes.TEXT,
         allowNull: true,

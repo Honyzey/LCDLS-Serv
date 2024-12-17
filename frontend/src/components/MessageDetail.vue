@@ -6,16 +6,17 @@
                     Conversation avec {{ annonce.User.identifiant }} pour l'annonce "{{ annonce.title }}"
                 </h2>
                 <div class="messages">
-                    <div v-for="message in messages" :key="message.id" :class="{ 'message-sent': message.sender_id === userId, 'message-received': message.sender_id !== userId }">
+                    <div v-for="message in messages" :key="message.id"
+                        :class="{ 'message-sent': message.sender_id === userId, 'message-received': message.sender_id !== userId }">
                         <p>{{ message.content }}</p>
                         <span>{{ formatDate(message.created_at) }}</span>
                     </div>
                 </div>
                 <form @submit.prevent="envoyerMessage">
-                  <div id="form-message">
-                    <textarea v-model="nouveauMessage" placeholder="Écrire un message..."></textarea>
-                    <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
- 				 </div>
+                    <div id="form-message">
+                        <textarea v-model="nouveauMessage" placeholder="Écrire un message..."></textarea>
+                        <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
                 </form>
             </div>
         </section>
@@ -167,7 +168,7 @@ form {
 
 #form-message {
     display: flex;
-  	align-items: center;
+    align-items: center;
     padding: 10px;
     background-color: #f9f9f9;
     border-top: 1px solid #ddd;
@@ -200,10 +201,10 @@ button {
     transition: background-color 0.3s;
 }
 
-  button i {
-  	margin-right: 3px;
-  }  
-  
+button i {
+    margin-right: 3px;
+}
+
 button:hover {
     background-color: #1e6391;
 }
@@ -243,7 +244,7 @@ button:hover {
 .user-card .btn-primary:hover {
     background-color: #1e6391;
 }
-  
+
 /* Responsive pour téléphones */
 @media (max-width: 768px) {
     .details-page {
@@ -259,8 +260,10 @@ button:hover {
     }
 
     #form-message {
-        flex-direction: column; /* Passer le formulaire en colonne pour plus d'espace */
-        gap: 8px; /* Ajouter un espacement entre les éléments */
+        flex-direction: column;
+        /* Passer le formulaire en colonne pour plus d'espace */
+        gap: 8px;
+        /* Ajouter un espacement entre les éléments */
     }
 
     textarea {
@@ -286,5 +289,4 @@ button:hover {
         font-size: 14px;
     }
 }
-  
 </style>

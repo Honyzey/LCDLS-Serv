@@ -1,5 +1,5 @@
 // controllers/messageController.js
-const { Conversation, Message, User, Annonce, Image } = require('../models');
+const { Conversation, Message, User, Annonce, Image, ConversationParticipant, sequelize } = require('../models');
 const { Op } = require('sequelize');
 
 const getConversations = async (req, res) => {
@@ -7,12 +7,15 @@ const getConversations = async (req, res) => {
 
     try {
         const conversations = await Conversation.findAll({
-            where: {
-                participants: {
-                    [Op.like]: `%${userId}%`
-                }
-            },
             include: [
+                {
+                    model: User,
+                    through: {
+                        model: ConversationParticipant,
+                        where: { user_id: userId }
+                    },
+                    required: true // Assurez-vous que l'utilisateur connecté est un participant
+                },
                 {
                     model: Annonce,
                     include: [
@@ -38,8 +41,21 @@ const getConversations = async (req, res) => {
 
 const getConversationDetails = async (req, res) => {
     const { id } = req.params;
+    const userId = req.user.id;
 
     try {
+        // Vérifiez si l'utilisateur fait partie de la conversation
+        const isParticipant = await ConversationParticipant.findOne({
+            where: {
+                conversation_id: id,
+                user_id: userId
+            }
+        });
+
+        if (!isParticipant) {
+            return res.status(403).json({ message: 'Accès refusé' });
+        }
+
         const messages = await Message.findAll({
             where: { conversation_id: id },
             include: [
@@ -51,8 +67,22 @@ const getConversationDetails = async (req, res) => {
                     model: Conversation,
                     include: [
                         {
+                            model: User,
+                            through: {
+                                model: ConversationParticipant
+                            }
+                        },
+                        {
                             model: Annonce,
-                            include: [User]
+                            include: [
+                                {
+                                    model: User,
+                                },
+                                {
+                                    model: Image, // Inclure les images associées à l'annonce
+                                    attributes: ['image_base64'] // Inclure uniquement les informations nécessaires, ici l'image en base64
+                                }
+                            ]
                         }
                     ]
                 }
@@ -60,13 +90,9 @@ const getConversationDetails = async (req, res) => {
             order: [['created_at', 'ASC']]
         });
 
-        if (messages.length === 0) {
-            return res.status(404).json({ message: 'Conversation non trouvée' });
-        }
-
         res.status(200).json(messages);
     } catch (error) {
-        console.error('Erreur lors de la récupération des détails de la conversation:', error);
+        console.error('Erreur lors de la récupération des messages:', error);
         res.status(500).json({ message: 'Erreur serveur' });
     }
 };
@@ -77,28 +103,38 @@ const createConversation = async (req, res) => {
 
     try {
         // Vérifiez si une conversation existe déjà entre les deux utilisateurs pour cette annonce
-        let conversation = await Conversation.findOne({
-            where: {
-                annonce_id,
-                participants: {
-                    [Op.like]: `%${sender_id}%`,
-                    [Op.like]: `%${destinataire_id}%`
-                }
+        let conversation = await sequelize.query(
+            `SELECT c.id
+             FROM conversations c
+             JOIN conversation_participants cp1 ON c.id = cp1.conversation_id
+             JOIN conversation_participants cp2 ON c.id = cp2.conversation_id
+             WHERE c.annonce_id = :annonce_id
+             AND cp1.user_id = :sender_id
+             AND cp2.user_id = :destinataire_id
+             GROUP BY c.id
+             HAVING COUNT(DISTINCT cp1.user_id) = 1
+             AND COUNT(DISTINCT cp2.user_id) = 1`,
+            {
+                replacements: { annonce_id, sender_id, destinataire_id },
+                type: sequelize.QueryTypes.SELECT
             }
-        });
+        );
 
-        if (!conversation) {
-            // Créez une nouvelle conversation si elle n'existe pas
-            conversation = await Conversation.create({
-                annonce_id,
-                participants: JSON.stringify([sender_id, destinataire_id]),
-                last_message: content,
-                updated_at: new Date()
-            });
+        if (conversation.length > 0) {
+            return res.status(200).json({ conversation_id: conversation[0].id });
         }
 
-        // Créez le message
-        const message = await Message.create({
+        // Créez une nouvelle conversation si elle n'existe pas
+        conversation = await Conversation.create({ annonce_id });
+
+        // Ajouter les participants à la conversation
+        await ConversationParticipant.bulkCreate([
+            { conversation_id: conversation.id, user_id: sender_id },
+            { conversation_id: conversation.id, user_id: destinataire_id }
+        ]);
+
+        // Créez le premier message dans la conversation
+        await Message.create({
             conversation_id: conversation.id,
             sender_id,
             content

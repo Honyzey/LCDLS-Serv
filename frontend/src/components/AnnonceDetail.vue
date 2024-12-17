@@ -123,7 +123,7 @@ export default {
                 const response = await axios.post('https://api.lecoindls.site/messages/conversation', {
                     annonce_id: this.annonce.id,
                     destinataire_id: this.annonce.user_id,
-                    content: 'Bonjour, je suis intéressé par votre annonce.'
+                    content: `Bonjour, je suis intéressé par votre annonce "${this.annonce.title}".`
                 }, {
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -323,7 +323,6 @@ export default {
     background-color: #ad1328;
     color: white;
     padding: 10px 20px;
-  	margin-right: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -405,7 +404,7 @@ export default {
     text-decoration: none;
     cursor: pointer;
 }
-  
+
 @media (max-width: 768px) {
     .details-page {
         flex-direction: column;
@@ -415,28 +414,30 @@ export default {
     .details-annonce {
         width: 100%;
     }
-  	.btn-danger {
-    	background-color: #ad1328;
-    	color: white;
-    	padding: 10px 20px;
-      	margin-right: 5px;
-    	border: none;
-    	border-radius: 5px;
-    	cursor: pointer;
-	}
+
+    .btn-danger {
+        background-color: #ad1328;
+        color: white;
+        padding: 10px 20px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
     .user-card {
-        order: 1; /* Place user-card après annonce-details */
+        order: 1;
+        /* Place user-card après annonce-details */
         margin-top: 20px;
-        width: 100%; /* Assure un affichage optimisé sur mobile */
+        width: 100%;
+        /* Assure un affichage optimisé sur mobile */
         max-width: 800px;
-      	margin-left: -20px;
+        margin-left: -20px;
     }
 
     #annonce-details {
-        order: 0; /* Place annonce-details en haut */
+        order: 0;
+        /* Place annonce-details en haut */
     }
 }
-
-  
 </style>

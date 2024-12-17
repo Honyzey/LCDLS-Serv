@@ -6,6 +6,7 @@ const Categorie = require('./Categorie');
 const Image = require('./Image');
 const Message = require('./Message');
 const Conversation = require('./Conversation');
+const ConversationParticipant = require('./ConversationParticipant');
 
 // Définir les associations entre les modèles
 Annonce.belongsTo(User, { foreignKey: 'user_id' });
@@ -25,6 +26,9 @@ Message.belongsTo(User, { as: 'sender', foreignKey: 'sender_id' });
 Conversation.belongsTo(Annonce, { foreignKey: 'annonce_id' });
 Annonce.hasMany(Conversation, { foreignKey: 'annonce_id' });
 
+Conversation.belongsToMany(User, { through: ConversationParticipant, foreignKey: 'conversation_id' });
+User.belongsToMany(Conversation, { through: ConversationParticipant, foreignKey: 'user_id' });
+
 module.exports = {
     sequelize,
     User,
@@ -32,5 +36,6 @@ module.exports = {
     Categorie,
     Image,
     Message,
-    Conversation
+    Conversation,
+    ConversationParticipant
 };
