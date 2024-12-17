@@ -6,7 +6,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser');
-const { sequelize, User, Categorie, Annonce, Image, Conversation, Message, ConversationParticipant } = require('./models');
+const { sequelize, Message, Conversation } = require('./models');
 const authRoutes = require('./routes/auth');
 const annonceRoutes = require('./routes/annonce');
 const messageRoutes = require('./routes/message');
@@ -100,17 +100,7 @@ const startServer = async () => {
     try {
         await sequelize.authenticate();
         console.log('Connexion à la base de données réussie.');
-
-        // Synchroniser les modèles dans l'ordre correct
-        await User.sync({ alter: true });
-        await Categorie.sync({ alter: true });
-        await Annonce.sync({ alter: true });
-        await Image.sync({ alter: true });
-        await Conversation.sync({ alter: true });
-        await Message.sync({ alter: true });
-        await ConversationParticipant.sync({ alter: true });
-
-        //await sequelize.sync({ alter: true, force: false }); // Attention: force: true va supprimer et recréer les tables
+        await sequelize.sync({ force: false }); // Attention: force: true va supprimer et recréer les tables
         server.listen(PORT, () => {
             console.log(`Serveur démarré sur le port ${PORT}\nDocumentation disponible à l'adresse https://lecoindls.site:${PORT}/documentation.html`);
         });
