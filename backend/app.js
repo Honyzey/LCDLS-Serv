@@ -99,6 +99,16 @@ const PORT = process.env.PORT || 3000;
 const startServer = async () => {
     try {
         await sequelize.authenticate();
+
+        // Synchroniser les modèles dans l'ordre correct
+        await User.sync();
+        await Categorie.sync();
+        await Annonce.sync();
+        await Image.sync();
+        await Conversation.sync();
+        await Message.sync();
+        await ConversationParticipant.sync();
+
         console.log('Connexion à la base de données réussie.');
         await sequelize.sync({ force: false }); // Attention: force: true va supprimer et recréer les tables
         server.listen(PORT, () => {
