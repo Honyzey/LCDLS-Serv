@@ -110,7 +110,7 @@ const startServer = async () => {
         await Message.sync({ alter: true });
         await ConversationParticipant.sync({ alter: true });
 
-        await sequelize.sync({ alter: true, force: false }); // Attention: force: true va supprimer et recréer les tables
+        //await sequelize.sync({ alter: true, force: false }); // Attention: force: true va supprimer et recréer les tables
         server.listen(PORT, () => {
             console.log(`Serveur démarré sur le port ${PORT}\nDocumentation disponible à l'adresse https://lecoindls.site:${PORT}/documentation.html`);
         });
