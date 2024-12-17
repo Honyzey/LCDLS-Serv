@@ -118,6 +118,7 @@ h3 {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.6s;
+  	margin-top: 10px;
 }
 
 .profil button.btn-secondary {

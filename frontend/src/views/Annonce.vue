@@ -193,4 +193,29 @@ button[type="submit"]:hover,
     flex-wrap: wrap;
     justify-content: center;
 }
+  
+/* Responsive pour téléphones */
+@media (max-width: 480px) {
+    #search-form {
+        max-width: 350px;
+        padding: 5px;
+    }
+
+    #search-bar {
+        font-size: 12px;
+      	max-width: 130px;
+      	padding: 8px;
+      	margin-right: 0px;
+    }
+
+    button[type="submit"] {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+  	button[type="button"] {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+}
+  
 </style>

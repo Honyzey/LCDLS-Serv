@@ -12,8 +12,10 @@
                     </div>
                 </div>
                 <form @submit.prevent="envoyerMessage">
+                  <div id="form-message">
                     <textarea v-model="nouveauMessage" placeholder="Écrire un message..."></textarea>
-                    <button type="submit">Envoyer</button>
+                    <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+ 				 </div>
                 </form>
             </div>
         </section>
@@ -163,23 +165,45 @@ form {
     flex-direction: column;
 }
 
-textarea {
+#form-message {
+    display: flex;
+  	align-items: center;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    resize: none;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+}
+
+textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    font-size: 14px;
+    background-color: #fff;
+    margin-right: 10px;
+    font-family: 'Poppins', sans-serif;
 }
 
 button {
-    padding: 10px;
     background-color: #2980B9;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
 }
 
+  button i {
+  	margin-right: 3px;
+  }  
+  
 button:hover {
     background-color: #1e6391;
 }
@@ -219,4 +243,48 @@ button:hover {
 .user-card .btn-primary:hover {
     background-color: #1e6391;
 }
+  
+/* Responsive pour téléphones */
+@media (max-width: 768px) {
+    .details-page {
+        padding: 10px;
+    }
+
+    .details-messages {
+        padding: 10px;
+    }
+
+    .messages {
+        max-height: 250px;
+    }
+
+    #form-message {
+        flex-direction: column; /* Passer le formulaire en colonne pour plus d'espace */
+        gap: 8px; /* Ajouter un espacement entre les éléments */
+    }
+
+    textarea {
+        margin-right: 0;
+        font-size: 14px;
+    }
+
+    button {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .user-card {
+        display: none;
+    }
+
+    .user-card h3 {
+        font-size: 16px;
+    }
+
+    .user-card p {
+        font-size: 14px;
+    }
+}
+  
 </style>

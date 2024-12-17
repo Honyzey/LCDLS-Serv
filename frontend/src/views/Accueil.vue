@@ -131,4 +131,34 @@ button[type="submit"]:hover {
     justify-content: center;
     gap: 20px;
 }
+  
+/* Responsive pour téléphones */
+@media (max-width: 480px) {
+    .hero {
+        padding: 20px 5px;
+    }
+
+    .hero h1 {
+        font-size: 24px;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+
+    #search-form {
+        max-width: 300px;
+        padding: 5px;
+    }
+
+    #search-bar {
+        font-size: 12px;
+    }
+
+    button[type="submit"] {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+}
+  
 </style>

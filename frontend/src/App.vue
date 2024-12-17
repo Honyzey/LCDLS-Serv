@@ -15,6 +15,9 @@
                         <li><i class="fa-solid fa-user"></i><router-link to="/profil">Profil</router-link></li>
                     </ul>
                 </nav>
+                <div class="hamburger" @click="toggleMenu">
+                	<i class="fa fa-bars"></i>
+            	</div>
             </div>
         </header>
         <main>
@@ -38,9 +41,16 @@ export default {
         showHeaderFooter() {
             return this.$route.path !== '/connexion';
         }
+    },
+    methods: {
+        toggleMenu() {
+            const navLinks = this.$el.querySelector('.nav-links');
+            navLinks.classList.toggle('show'); // Ajoute ou enlève la classe "show" au menu
+        }
     }
 }
 </script>
+
 
 <style scoped>
 /* Pour assurer que le footer reste en bas */
@@ -101,6 +111,17 @@ header {
     border-radius: 4px;
     transition: background-color 0.6s;
 }
+  
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.hamburger i {
+    font-size: 28px;
+    color: white;
+}
 
 /* Style du Footer */
 footer {
@@ -127,4 +148,46 @@ footer {
 .footer-links a:hover {
     color: #2980B9;
 }
+  
+/* Responsive Design */
+
+/* Pour les tablettes et mobiles */
+@media (max-width: 768px) {
+    .logo img{
+        display: none; 
+    }
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #2C3E50;
+        position: absolute;
+        top: 60px; /* Ajuster selon la hauteur de la navbar */
+        left: 0;
+        padding: 0;
+        z-index: 1000;
+    }
+
+    .nav-links li {
+        text-align: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #34495E;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links.show {
+        display: flex; /* Affiche le menu lorsque la classe 'show' est ajoutée */
+    }
+
+}
+  
 </style>

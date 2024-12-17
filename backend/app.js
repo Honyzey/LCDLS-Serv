@@ -99,7 +99,7 @@ const startServer = async () => {
         console.log('Connexion à la base de données réussie.');
         await sequelize.sync({ force: false }); // Attention: force: true va supprimer et recréer les tables
         server.listen(PORT, () => {
-            console.log(`Serveur démarré sur le port ${PORT}\nDocumentation disponible à l'adresse http://casanyzey.local:${PORT}/documentation.html`);
+            console.log(`Serveur démarré sur le port ${PORT}\nDocumentation disponible à l'adresse https://local-shyphem.site:${PORT}/documentation.html`);
         });
     } catch (error) {
         console.error('Impossible de se connecter à la base de données:', error);

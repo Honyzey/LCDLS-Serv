@@ -404,4 +404,38 @@ export default {
     text-decoration: none;
     cursor: pointer;
 }
+  
+@media (max-width: 768px) {
+    .details-page {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .details-annonce {
+        width: 100%;
+    }
+  	.btn-danger {
+    	background-color: #ad1328;
+    	color: white;
+    	padding: 10px 20px;
+      	margin-right: 5px;
+    	border: none;
+    	border-radius: 5px;
+    	cursor: pointer;
+	}
+
+    .user-card {
+        order: 1; /* Place user-card après annonce-details */
+        margin-top: 20px;
+        width: 100%; /* Assure un affichage optimisé sur mobile */
+        max-width: 800px;
+      	margin-left: -20px;
+    }
+
+    #annonce-details {
+        order: 0; /* Place annonce-details en haut */
+    }
+}
+
+  
 </style>
