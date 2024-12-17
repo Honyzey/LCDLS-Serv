@@ -4,9 +4,9 @@ const User = require('./User');
 const Annonce = require('./Annonce');
 const Categorie = require('./Categorie');
 const Image = require('./Image');
-const Message = require('./Message');
 const Conversation = require('./Conversation');
 const ConversationParticipant = require('./ConversationParticipant');
+const Message = require('./Message');
 
 // Définir les associations entre les modèles
 Annonce.belongsTo(User, { foreignKey: 'user_id' });
