@@ -11,7 +11,7 @@ const Annonce = sequelize.define('Annonce', {
     user_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'Users',
+            model: 'users',
             key: 'id',
         },
         allowNull: false,
@@ -19,7 +19,7 @@ const Annonce = sequelize.define('Annonce', {
     categorie_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'Categories',
+            model: 'categories',
             key: 'id',
         },
         allowNull: false,

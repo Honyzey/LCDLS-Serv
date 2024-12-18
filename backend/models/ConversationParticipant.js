@@ -6,7 +6,7 @@ const ConversationParticipant = sequelize.define('ConversationParticipant', {
     conversation_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'Conversations',
+            model: 'conversations',
             key: 'id',
         },
         allowNull: false,
@@ -14,7 +14,7 @@ const ConversationParticipant = sequelize.define('ConversationParticipant', {
     user_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'Users',
+            model: 'users',
             key: 'id',
         },
         allowNull: false,

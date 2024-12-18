@@ -11,7 +11,7 @@ const Image = sequelize.define('Image', {
     annonce_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'Annonces',
+            model: 'annonces',
             key: 'id',
         },
         allowNull: false,
