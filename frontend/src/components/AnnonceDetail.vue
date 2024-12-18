@@ -45,7 +45,7 @@
             </router-link>
             <p v-if="user.Annonces.length > 1">{{ user.Annonces.length }} annonces postées</p>
             <p>Dernière connexion : {{ user.last_connexion }}</p>
-            <button @click="sendMessage" class="btn-primary">Envoyer un message</button>
+            <button v-if="canSendMessage" @click="sendMessage" class="btn-primary">Envoyer un message</button>
         </div>
     </div>
 </template>
@@ -74,6 +74,20 @@ export default {
             console.log('currentUser:', this.currentUser.id);
             console.log('annonce.user_id:', this.annonce.user_id);
             return this.currentUser && (this.currentUser.id === this.annonce.user_id || this.currentUser.level === 'admin');
+        },
+        canSendMessage() {
+            console.log('currentUser:', this.currentUser.id);
+            console.log('annonce.user_id:', this.annonce.user_id);
+            if (this.currentUser && (this.currentUser.id === this.annonce.user_id)) {
+                if (this.currentUser && (this.currentUser.level === 'admin')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+            return
         }
     },
     async created() {

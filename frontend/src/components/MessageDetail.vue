@@ -5,7 +5,7 @@
                 <h2 v-if="annonce.User">
                     Conversation avec {{ annonce.User.identifiant }} pour l'annonce "{{ annonce.title }}"
                 </h2>
-                <div class="messages">
+                <div class="messages" ref="messagesContainer">
                     <div v-for="message in messages" :key="message.id"
                         :class="{ 'message-sent': message.sender_id === userId, 'message-received': message.sender_id !== userId }">
                         <p>{{ message.content }}</p>
@@ -14,7 +14,8 @@
                 </div>
                 <form @submit.prevent="envoyerMessage">
                     <div id="form-message">
-                        <textarea v-model="nouveauMessage" placeholder="Écrire un message..."></textarea>
+                        <textarea v-model="nouveauMessage" placeholder="Écrire un message..."
+                            @keydown="handleKeyDown"></textarea>
                         <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                 </form>
@@ -28,7 +29,6 @@
             <p v-if="user.Annonces && user.Annonces.length > 1">
                 {{ user.Annonces.length }} annonces postées
             </p>
-            <p>Dernière connexion : {{ formatDate(user.last_connexion) }}</p>
         </div>
     </div>
 </template>
@@ -70,6 +70,7 @@ export default {
             // Écouter les nouveaux messages
             socket.on("newMessage", (message) => {
                 this.messages.push(message);
+                this.scrollToBottom();
             });
         } catch (error) {
             console.error("Erreur lors de la récupération des messages :", error);
@@ -102,6 +103,7 @@ export default {
             socket.emit("sendMessage", message, (response) => {
                 if (response.status === "ok") {
                     this.nouveauMessage = ""; // Réinitialiser le champ
+                    this.scrollToBottom();
                 } else {
                     console.error("Erreur lors de l'envoi du message :", response.error);
                 }
@@ -110,7 +112,27 @@ export default {
         formatDate(dateString) {
             return new Date(dateString).toLocaleString();
         },
+        handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                this.envoyerMessage();
+            }
+        },
+        scrollToBottom() {
+            this.$nextTick(() => {
+                const container = this.$refs.messagesContainer;
+                container.scrollTop = container.scrollHeight;
+            });
+        }
     },
+    watch: {
+        messages() {
+            this.scrollToBottom();
+        }
+    },
+    mounted() {
+        this.scrollToBottom();
+    }
 };
 </script>
 
