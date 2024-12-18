@@ -131,7 +131,7 @@ button[type="submit"]:hover {
     justify-content: center;
     gap: 20px;
 }
-  
+
 /* Responsive pour téléphones */
 @media (max-width: 480px) {
     .hero {
@@ -160,5 +160,4 @@ button[type="submit"]:hover {
         padding: 8px 16px;
     }
 }
-  
 </style>

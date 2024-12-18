@@ -36,33 +36,39 @@ export default {
 </script>
 
 <style scoped>
-  
 h2 {
     font-size: 28px;
     margin-bottom: 20px;
     text-align: center;
-}  
+}
+
 .conversations {
     padding: 20px;
     background-color: #f9f9f9;
-    display: flex; /* Utilise Flexbox pour aligner */
-    flex-direction: column; /* Les cartes restent empilées verticalement */
-    align-items: center; /* Centre les cartes horizontalement */
+    display: flex;
+    /* Utilise Flexbox pour aligner */
+    flex-direction: column;
+    /* Les cartes restent empilées verticalement */
+    align-items: center;
+    /* Centre les cartes horizontalement */
     justify-content: center;
 }
 
 #conversation-list {
     display: flex;
-    flex-direction: column; /* Les cartes seront en colonne, donc une sous l'autre */
-    gap: 20px; /* Espacement entre les cartes */
+    flex-direction: column;
+    /* Les cartes seront en colonne, donc une sous l'autre */
+    gap: 20px;
+    /* Espacement entre les cartes */
 }
-  
+
 /* Responsive pour les écrans de moins de 768px */
 @media screen and (max-width: 768px) {
     #conversation-list {
-        flex-direction: column; /* Colonne par défaut */
-        align-items: center; /* Centre les cartes */
+        flex-direction: column;
+        /* Colonne par défaut */
+        align-items: center;
+        /* Centre les cartes */
     }
 }
-  
 </style>

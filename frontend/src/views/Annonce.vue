@@ -148,11 +148,15 @@ button[type="submit"]:hover,
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #2980B9; /* Couleur de fond douce */
-    border: 1px solid #ddd; /* Légère bordure */
-    border-radius: 8px; /* Coins arrondis */
+    background-color: #2980B9;
+    /* Couleur de fond douce */
+    border: 1px solid #ddd;
+    /* Légère bordure */
+    border-radius: 8px;
+    /* Coins arrondis */
     padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Légère ombre */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Légère ombre */
     margin: 20px auto;
     max-width: 600px;
 }
@@ -186,14 +190,14 @@ button[type="submit"]:hover,
 
 #filters-section button:hover {
     background-color: #1d6fa5;
-}  
-  
+}
+
 .annonces-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
-  
+
 /* Responsive pour téléphones */
 @media (max-width: 480px) {
     #search-form {
@@ -203,19 +207,19 @@ button[type="submit"]:hover,
 
     #search-bar {
         font-size: 12px;
-      	max-width: 130px;
-      	padding: 8px;
-      	margin-right: 0px;
+        max-width: 130px;
+        padding: 8px;
+        margin-right: 0px;
     }
 
     button[type="submit"] {
         font-size: 12px;
         padding: 8px 10px;
     }
-  	button[type="button"] {
+
+    button[type="button"] {
         font-size: 12px;
         padding: 8px 10px;
     }
 }
-  
 </style>
