@@ -124,7 +124,7 @@ const getEtats = async (req, res) => {
 const getLatestAnnonces = async (req, res) => {
     try {
         const annonces = await Annonce.findAll({
-            limit: 10,
+            limit: 4,
             order: [['creation_date', 'DESC']],
             include: [Categorie, Image]
         });
