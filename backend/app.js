@@ -13,6 +13,8 @@ const messageRoutes = require('./routes/message');
 const userRoutes = require('./routes/user');
 require('dotenv').config();
 
+const { contientInsulte } = require('./utils/insultes');
+
 const app = express();
 
 const server = http.createServer(app);
@@ -70,6 +72,10 @@ io.use((socket, next) => {
         const sender_id = socket.user.id;
 
         try {
+            if (contientInsulte(content)) {
+                return callback({ status: 'error', error: 'Votre message contient des insultes' });
+            }
+
             const message = await Message.create({
                 conversation_id,
                 sender_id,
@@ -102,7 +108,7 @@ const startServer = async () => {
         console.log('Connexion à la base de données réussie.');
         await sequelize.sync({ force: false }); // Attention: force: true va supprimer et recréer les tables
         server.listen(PORT, () => {
-            console.log(`Serveur démarré sur le port ${PORT}\nDocumentation disponible à l'adresse https://lecoindls.site:${PORT}/documentation.html`);
+            console.log(`Serveur démarré sur le port ${PORT}\nDocumentation disponible à l'adresse http://localhost:5173:${PORT}/documentation.html`);
         });
     } catch (error) {
         console.error('Impossible de se connecter à la base de données:', error);

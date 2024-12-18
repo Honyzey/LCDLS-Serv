@@ -1,6 +1,7 @@
 // controllers/messageController.js
 const { Conversation, Message, User, Annonce, Image, ConversationParticipant, sequelize } = require('../models');
 const { Op } = require('sequelize');
+const { contientInsulte } = require('../utils/insultes');
 
 const getConversations = async (req, res) => {
     const userId = req.user.id;
@@ -134,11 +135,11 @@ const createConversation = async (req, res) => {
         ]);
 
         // Créez le premier message dans la conversation
-        await Message.create({
+        /*await Message.create({
             conversation_id: conversation.id,
             sender_id,
             content
-        });
+        });*/
 
         res.status(201).json({ conversation_id: conversation.id });
     } catch (error) {
@@ -152,6 +153,10 @@ const sendMessage = async (req, res) => {
     const sender_id = req.user.id;
 
     try {
+        if (contientInsulte(content)) {
+            return res.status(400).json({ message: 'Votre message contient des insultes' });
+        }
+
         const message = await Message.create({
             conversation_id,
             sender_id,

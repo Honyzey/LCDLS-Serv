@@ -29,6 +29,7 @@
             <p v-if="user.Annonces && user.Annonces.length > 1">
                 {{ user.Annonces.length }} annonces postées
             </p>
+            <p>Dernière connexion : {{ user.last_connexion }}</p>
         </div>
     </div>
 </template>
@@ -105,7 +106,12 @@ export default {
                     this.nouveauMessage = ""; // Réinitialiser le champ
                     this.scrollToBottom();
                 } else {
-                    console.error("Erreur lors de l'envoi du message :", response.error);
+                    if (response.error === 'Votre message contient des insultes') {
+                        alert('Votre message contient des insultes. Veuillez le modifier.');
+                        console.error("Erreur lors de l'envoi du message :", response.error);
+                    } else {
+                        console.error("Erreur lors de l'envoi du message :", response.error);
+                    }
                 }
             });
         },
