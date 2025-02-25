@@ -24,8 +24,7 @@
 
         <h2>4. Collecte des données</h2>
         <p>Le site peut collecter des informations personnelles concernant l'utilisateur lors de son inscription ou de
-            l'utilisation des services proposés. Ces informations sont traitées conformément à notre <a
-                href="confidentialite.html">Politique de Confidentialité</a>.</p>
+            l'utilisation des services proposés. Ces informations sont traitées conformément à notre <router-link to="/confidentialite"><a>Politique de Confidentialité</a>.</router-link></p>
 
         <h2>5. Limitation de responsabilité</h2>
         <p>Le Groupe Saint-Jean ne pourra être tenu responsable de tout dommage direct ou indirect résultant de l'accès
