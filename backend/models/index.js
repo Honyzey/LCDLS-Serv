@@ -1,6 +1,7 @@
 // models/index.js
 const sequelize = require('../config/db');
 const User = require('./User');
+const Conversation = require('./Conversation');
 const Annonce = require('./Annonce');
 const Categorie = require('./Categorie');
 const Image = require('./Image');
