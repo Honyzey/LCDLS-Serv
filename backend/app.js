@@ -106,7 +106,7 @@ const startServer = async () => {
     try {
         await sequelize.authenticate();
         console.log('Connexion à la base de données réussie.');
-        await sequelize.sync({ force: false }); // Attention: force: true va supprimer et recréer les tables
+        await sequelize.sync({ force: true }); // Attention: force: true va supprimer et recréer les tables
         server.listen(PORT, () => {
             console.log(`Serveur démarré sur le port ${PORT}\nDocumentation disponible à l'adresse http://localhost:5173:${PORT}/documentation.html`);
         });
