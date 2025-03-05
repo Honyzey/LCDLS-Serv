@@ -153,7 +153,12 @@ export default {
             this.showReport = !this.showReport;
         },
         reportAnnonce() {
-            // Logique pour signaler l'annonce
+            await axios.post(`https://api.lecoindls.site/annonces/report/${this.annonce.id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                withCredentials: true
+            });
         },
         async deleteAnnonce() {
             try {

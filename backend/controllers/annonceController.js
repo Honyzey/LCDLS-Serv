@@ -211,4 +211,13 @@ const deleteAnnonce = async (req, res) => {
     }
 };
 
+const reportAnnonce = async (req, res) => {
+    const id = req.params;
+    const annonce = await Annonce.findOne({ where: id });
+
+
+
+
+}
+
 module.exports = { createAnnonce, getAnnonce, getAnnonces, searchAnnonces, getCategories, getEtats, getLatestAnnonces, getAnnoncesByUser, getAnnoncesByUserId, deleteAnnonce };

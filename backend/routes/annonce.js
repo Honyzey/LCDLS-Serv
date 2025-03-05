@@ -1,6 +1,6 @@
 // routes/annonce.js
 const express = require('express');
-const { createAnnonce, getAnnonce, getAnnonces, searchAnnonces, getCategories, getEtats, getLatestAnnonces, getAnnoncesByUser, getAnnoncesByUserId, deleteAnnonce } = require('../controllers/annonceController');
+const { createAnnonce, getAnnonce, getAnnonces, searchAnnonces, getCategories, getEtats, getLatestAnnonces, getAnnoncesByUser, getAnnoncesByUserId, deleteAnnonce, reportAnnonce } = require('../controllers/annonceController');
 const authenticateToken = require('../middleware/auth');
 const multer = require('multer');
 const upload = multer();
@@ -16,6 +16,15 @@ const router = express.Router();
  * @error { message: string }
  */
 router.post('/', authenticateToken, upload.array('images'), createAnnonce);
+
+/**
+ * @route POST /annonces/report/:id
+ * @desc Report une annonce
+ * @access Public
+ * @body { annonce_id: number }
+ * @error { message: string }
+ */
+router.post('/report/:id', reportAnnonce);
 
 /**
  * @route GET /annonces

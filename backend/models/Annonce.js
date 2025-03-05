@@ -48,6 +48,10 @@ const Annonce = sequelize.define('Annonce', {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
     },
+    reported: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    }
 }, {
     tableName: 'annonces',
     timestamps: false,
