@@ -1,6 +1,6 @@
 // routes/annonce.js
 const express = require('express');
-const { createAnnonce, getAnnonce, getAnnonces, searchAnnonces, getCategories, getEtats, getLatestAnnonces, getAnnoncesByUser, getAnnoncesByUserId, deleteAnnonce, reportAnnonce } = require('../controllers/annonceController');
+const { createAnnonce, getAnnonce, getAnnonces, searchAnnonces, getCategories, getEtats, getLatestAnnonces, getAnnoncesByUser, getAnnoncesByUserId, deleteAnnonce, reportAnnonce, getReportedAnnonces } = require('../controllers/annonceController');
 const authenticateToken = require('../middleware/auth');
 const multer = require('multer');
 const upload = multer();
@@ -18,13 +18,23 @@ const router = express.Router();
 router.post('/', authenticateToken, upload.array('images'), createAnnonce);
 
 /**
- * @route POST /annonces/report/:id
- * @desc Report une annonce
- * @access Public
- * @body { annonce_id: number }
+ * @route GET /annonces/reported
+ * @desc Récupère toutes les annonces signalées (reported = true)
+ * @access Admin only
+ * @response { annonces: array }
  * @error { message: string }
  */
-router.post('/report/:id', reportAnnonce);
+router.get('/reported', authenticateToken, getReportedAnnonces);
+
+/**
+ * @route POST /annonces/report/:id
+ * @desc Report une annonce
+ * @access Private (nécessite authentification)
+ * @params { id: number }
+ * @response { message: string }
+ * @error { message: string }
+ */
+router.post('/report/:id', authenticateToken, reportAnnonce);
 
 /**
  * @route GET /annonces

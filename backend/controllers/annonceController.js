@@ -212,12 +212,42 @@ const deleteAnnonce = async (req, res) => {
 };
 
 const reportAnnonce = async (req, res) => {
-    const id = req.params;
-    const annonce = await Annonce.findOne({ where: id });
+    const { id } = req.params;
 
+    try {
+        const annonce = await Annonce.findByPk(id);
 
+        if (!annonce) {
+            return res.status(404).json({ message: 'Annonce non trouvée' });
+        }
 
+        // Mettre à jour l'attribut reported à true
+        await annonce.update({ reported: true });
 
-}
+        res.status(200).json({ message: 'Annonce signalée avec succès' });
+    } catch (error) {
+        console.error('Erreur lors du signalement de l\'annonce:', error);
+        res.status(500).json({ message: 'Erreur lors du signalement de l\'annonce' });
+    }
+};
 
-module.exports = { createAnnonce, getAnnonce, getAnnonces, searchAnnonces, getCategories, getEtats, getLatestAnnonces, getAnnoncesByUser, getAnnoncesByUserId, deleteAnnonce };
+const getReportedAnnonces = async (req, res) => {
+    try {
+        // Seuls les administrateurs devraient pouvoir voir les annonces signalées
+        if (req.user.level !== 'admin') {
+            return res.status(403).json({ message: 'Accès refusé. Seuls les administrateurs peuvent voir les annonces signalées' });
+        }
+
+        const reportedAnnonces = await Annonce.findAll({
+            where: { reported: true },
+            include: [Categorie, Image]
+        });
+
+        res.status(200).json(reportedAnnonces);
+    } catch (error) {
+        console.error('Erreur lors de la récupération des annonces signalées:', error);
+        res.status(500).json({ message: 'Erreur lors de la récupération des annonces signalées' });
+    }
+};
+
+module.exports = { createAnnonce, getAnnonce, getAnnonces, searchAnnonces, getCategories, getEtats, getLatestAnnonces, getAnnoncesByUser, getAnnoncesByUserId, deleteAnnonce, reportAnnonce, getReportedAnnonces };

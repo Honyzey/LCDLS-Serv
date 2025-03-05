@@ -153,12 +153,24 @@ export default {
             this.showReport = !this.showReport;
         },
         reportAnnonce() {
-            await axios.post(`https://api.lecoindls.site/annonces/report/${this.annonce.id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                withCredentials: true
-            });
+            // Confirmer avec l'utilisateur avant de signaler
+            if (confirm('Êtes-vous sûr de vouloir signaler cette annonce ?')) {
+                const token = getAuthToken();
+                axios.post(`https://api.lecoindls.site/annonces/report/${this.annonce.id}`, {}, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    withCredentials: true
+                })
+                    .then(response => {
+                        alert('Annonce signalée avec succès');
+                        this.showReport = false;
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors du signalement de l\'annonce:', error);
+                        alert('Erreur lors du signalement de l\'annonce');
+                    });
+            }
         },
         async deleteAnnonce() {
             try {
