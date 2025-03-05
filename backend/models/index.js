@@ -5,7 +5,6 @@ const Conversation = require('./Conversation');
 const Annonce = require('./Annonce');
 const Categorie = require('./Categorie');
 const Image = require('./Image');
-const Conversation = require('./Conversation');
 const ConversationParticipant = require('./ConversationParticipant');
 const Message = require('./Message');
 
