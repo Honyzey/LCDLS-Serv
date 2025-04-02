@@ -126,7 +126,6 @@ export default {
                     },
                     withCredentials: true
                 });
-                console.log('Annonce créée avec succès:', response.data);
                 this.$router.push(`/annonce/${response.data.id}`);
             } catch (error) {
                 if (error.response && error.response.status === 400 && error.response.data.message === 'Votre annonce contient des insultes') {

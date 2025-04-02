@@ -22,11 +22,9 @@ export default {
     },
     async created() {
         try {
-            console.log('Récupération des conversations');
             const response = await axios.get('https://api.lecoindls.site/messages/conversations', {
                 withCredentials: true
             });
-            console.log('Conversations récupérées:', response.data);
             this.conversations = response.data;
         } catch (error) {
             console.error('Erreur lors de la récupération des conversations:', error);

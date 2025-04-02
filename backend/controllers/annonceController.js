@@ -41,6 +41,7 @@ const getAnnonce = async (req, res) => {
 
     try {
         const annonce = await Annonce.findByPk(id, {
+          	where: { reported: false },
             include: [Categorie, Image]
         });
         if (!annonce) {
@@ -63,7 +64,9 @@ const getAnnonce = async (req, res) => {
 const getAnnonces = async (req, res) => {
     try {
         const annonces = await Annonce.findAll({
+          	where: { reported: false },
             include: [Categorie, Image]
+          
         });
         res.json(annonces);
     } catch (error) {
@@ -126,7 +129,8 @@ const getLatestAnnonces = async (req, res) => {
         const annonces = await Annonce.findAll({
             limit: 4,
             order: [['creation_date', 'DESC']],
-            include: [Categorie, Image]
+            include: [Categorie, Image],
+          	where: { reported: false }
         });
         res.json(annonces);
     } catch (error) {
